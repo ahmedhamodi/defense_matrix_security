@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<title>AAA</title>
+	</head>
+
+	<body>
+		<h1>Something</h1>
+		<div id="container">
+			<script>setInterval('autoRefresh()', 5000);</script>
+		</div>
+
+		<div id="chart_div"></div>
+
+		<script>
+			google.charts.load('current', {packages: ['corechart', 'bar']});
+			google.charts.setOnLoadCallback(drawColColors);
+
+			function drawColColors() {
+				var data = new google.visualization.DataTable();
+				data.addColumn('string', 'Ip');
+				data.addColumn('number', 'Without treatment');
+
+				// Reading CSV
+				$.get('/root/dmstats.csv', function(data) {
+				    rows.forEach( getValues(ourrow, data));
+				})
+
+				var options = {
+				    title: 'Number of Missed Packets',
+				    colors: ['#9575cd', '#33ac71'],
+				    hAxis: {
+				      title: 'IP',
+				    },
+				    vAxis: {
+				    title: 'Missed Packages'
+				    }
+				};
+				var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+				chart.draw(data, options);
+			}
+		</script>
+
+		<!-- Scripts -->
+		<script src="jquery.min.js"></script>
+		<script src="loader.js"></script>
+	</body>
+</html>
